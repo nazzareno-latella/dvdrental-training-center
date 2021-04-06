@@ -1,2 +1,2 @@
 # dvdrental-training-center
-Simple self-training project
+Simple self-training project.
