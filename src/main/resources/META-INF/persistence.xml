@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="dvdrental-training-center">
+		<class>it.nlatella.dvdrental.data.entity.Actor</class>
+		<class>it.nlatella.dvdrental.data.entity.ActorInfo</class>
+		<class>it.nlatella.dvdrental.data.entity.Address</class>
+		<class>it.nlatella.dvdrental.data.entity.Category</class>
+		<class>it.nlatella.dvdrental.data.entity.City</class>
+		<class>it.nlatella.dvdrental.data.entity.Country</class>
+		<class>it.nlatella.dvdrental.data.entity.Customer</class>
+		<class>it.nlatella.dvdrental.data.entity.CustomerList</class>
+		<class>it.nlatella.dvdrental.data.entity.Film</class>
+		<class>it.nlatella.dvdrental.data.entity.FilmActor</class>
+		<class>it.nlatella.dvdrental.data.entity.FilmActorPK</class>
+		<class>it.nlatella.dvdrental.data.entity.FilmCategory</class>
+		<class>it.nlatella.dvdrental.data.entity.FilmCategoryPK</class>
+		<class>it.nlatella.dvdrental.data.entity.FilmList</class>
+		<class>it.nlatella.dvdrental.data.entity.Inventory</class>
+		<class>it.nlatella.dvdrental.data.entity.Language</class>
+		<class>it.nlatella.dvdrental.data.entity.NicerButSlowerFilmList</class>
+		<class>it.nlatella.dvdrental.data.entity.Payment</class>
+		<class>it.nlatella.dvdrental.data.entity.Rental</class>
+		<class>it.nlatella.dvdrental.data.entity.SalesByFilmCategory</class>
+		<class>it.nlatella.dvdrental.data.entity.SalesByStore</class>
+		<class>it.nlatella.dvdrental.data.entity.Staff</class>
+		<class>it.nlatella.dvdrental.data.entity.StaffList</class>
+		<class>it.nlatella.dvdrental.data.entity.Store</class>
+	</persistence-unit>
+</persistence>

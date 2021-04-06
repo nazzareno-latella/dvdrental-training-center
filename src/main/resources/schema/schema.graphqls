@@ -1,0 +1,23 @@
+type Query {
+    filmDetailById(id: ID): Film
+    films: [Film]
+}
+
+type Film {
+	filmId: Int
+    title: String
+    description: String 
+    releaseYear: Int
+    rentalRate: Float   
+    categories: [Category]
+    actors: [Actor]
+}
+
+type Category {
+	name: String
+}
+
+type Actor {
+    firstName: String
+    lastName: String
+}
