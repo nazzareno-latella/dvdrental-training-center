@@ -6,8 +6,8 @@ import java.net.URISyntaxException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -26,9 +26,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		"it.nlatella.dvdrental.data.repository" })
 public class DatalayerConfig {
 
+	@Value("${spring.datasource.driver-class-name}")
+	private String driverClassName;
+
+	@Value("${spring.datasource.jdbc-url}")
+	private String jdbcUrl;
+
+	@Value("${spring.datasource.username}")
+	private String username;
+
+	@Value("${spring.datasource.password}")
+	private String password;
+
 	@Primary
 	@Bean
-	@ConfigurationProperties(prefix = "spring.datasource")
+	// @ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource dataSource() {
 		String databaseUrl = System.getenv("DATABASE_URL");
 		if (databaseUrl != null) {
@@ -39,14 +51,13 @@ public class DatalayerConfig {
 				return DataSourceBuilder.create().build();
 			}
 
-			String username = dbUri.getUserInfo().split(":")[0];
-			String password = dbUri.getUserInfo().split(":")[1];
-			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
-			return DataSourceBuilder.create().url(dbUrl).username(username).password(password).build();
-		} else {
-			return DataSourceBuilder.create().build();
+			username = dbUri.getUserInfo().split(":")[0];
+			password = dbUri.getUserInfo().split(":")[1];
+			jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 		}
+
+		return DataSourceBuilder.create().driverClassName(driverClassName).url(jdbcUrl).username(username)
+				.password(password).build();
 	}
 
 	@Primary
