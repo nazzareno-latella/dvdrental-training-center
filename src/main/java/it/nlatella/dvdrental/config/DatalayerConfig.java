@@ -40,7 +40,6 @@ public class DatalayerConfig {
 
 	@Primary
 	@Bean
-	// @ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource dataSource() {
 		String databaseUrl = System.getenv("DATABASE_URL");
 		if (databaseUrl != null) {
