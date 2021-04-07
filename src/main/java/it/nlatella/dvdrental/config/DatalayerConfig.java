@@ -1,5 +1,8 @@
 package it.nlatella.dvdrental.config;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -19,22 +22,38 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableAutoConfiguration
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager", basePackages = { "it.nlatella.dvdrental.data.repository" })
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager", basePackages = {
+		"it.nlatella.dvdrental.data.repository" })
 public class DatalayerConfig {
 
 	@Primary
 	@Bean
 	@ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource dataSource() {
-		return DataSourceBuilder.create().build();
+		String databaseUrl = System.getenv("DATABASE_URL");
+		if (databaseUrl != null) {
+			URI dbUri;
+			try {
+				dbUri = new URI(System.getenv("DATABASE_URL"));
+			} catch (URISyntaxException e) {
+				return DataSourceBuilder.create().build();
+			}
+
+			String username = dbUri.getUserInfo().split(":")[0];
+			String password = dbUri.getUserInfo().split(":")[1];
+			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+			return DataSourceBuilder.create().url(dbUrl).username(username).password(password).build();
+		} else {
+			return DataSourceBuilder.create().build();
+		}
 	}
 
 	@Primary
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(final EntityManagerFactoryBuilder builder) {
-		return builder.dataSource(dataSource())
-				.packages("it.nlatella.dvdrental.data.entity").persistenceUnit("dvdrental")
-				.build();
+		return builder.dataSource(dataSource()).packages("it.nlatella.dvdrental.data.entity")
+				.persistenceUnit("dvdrental").build();
 	}
 
 	@Bean(name = "transactionManager")
